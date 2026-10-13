@@ -1,6 +1,11 @@
 <script setup>
 import { computed, onMounted, onUnmounted, reactive, ref } from 'vue'
+import TeamPage from './TeamPage.vue'
 import { BookOpen, LayoutDashboard, CalendarDays, GraduationCap, Users, CreditCard, ScrollText, Settings2, LogOut, ArrowUpRight, ArrowRight, Plus, Search, Check, X, LoaderCircle, RefreshCw, ShieldCheck, ChevronRight, Menu, AlertCircle } from 'lucide-vue-next'
+const showTeam=ref(window.location.hash==='#team')
+function syncPublicPage(){showTeam.value=window.location.hash==='#team';window.scrollTo(0,0)}
+onMounted(()=>window.addEventListener('hashchange',syncPublicPage))
+onUnmounted(()=>window.removeEventListener('hashchange',syncPublicPage))
 const user=ref(null), csrf=ref(''), loading=ref(true), busy=ref(false), tab=ref('overview'), mobile=ref(false)
 const error=ref(''), success=ref(''), catalog=ref([]), overview=ref({term:{},stats:{}}), schedule=ref({choices:[],submitted:false})
 const primary=ref([]), alternate=ref([]), query=ref(''), department=ref('all'), onlyAvailable=ref(false)
@@ -68,9 +73,13 @@ onUnmounted(()=>clearInterval(timer))
 </script>
 
 <template>
- <div v-if="loading" class="boot"><LoaderCircle class="spin"/><p>正在连接教务系统…</p></div>
+ <TeamPage v-if="showTeam" />
+ <div v-else-if="loading" class="boot"><LoaderCircle class="spin"/><p>正在连接教务系统…</p></div>
  <main v-else-if="!user" class="login-page">
+  <div class="login-entry">
   <section class="login-panel"><div class="login-box"><div class="brand"><span class="brand-mark"><BookOpen/></span><b>知课</b></div><h2>登录课程注册系统</h2><form @submit.prevent="login"><label>账号<input v-model="loginForm.username" autocomplete="username" required placeholder="请输入账号"></label><label>密码<input v-model="loginForm.password" type="password" autocomplete="current-password" required placeholder="请输入密码"></label><div v-if="error" class="alert error" role="alert">{{error}}</div><button class="button primary full" :disabled="busy"><LoaderCircle v-if="busy" class="spin"/><span>登录</span><ArrowRight/></button></form><div class="demo-login"><span>课程演示账户</span><div><button @click="quick('student')">学生</button><button @click="quick('professor')">教师</button><button @click="quick('registrar')">教务管理员</button></div><small>选择身份填入演示账号，密码统一为 Demo2026!</small></div></div></section>
+  <a href="#team" class="button secondary team-entry"><Users :size="17" />团队说明<ArrowRight :size="16" /></a>
+  </div>
  </main>
  <div v-else class="workspace">
   <aside :class="['sidebar',{mobile}]">
