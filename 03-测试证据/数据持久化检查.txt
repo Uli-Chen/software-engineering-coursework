@@ -1,0 +1,6 @@
+ Container secd-course-registration-db-1 Restarting 
+ Container secd-course-registration-db-1 Started 
+Counts before restart (users|schedules|choices): 18|16|36
+Counts after restart: 18|16|36
+Database restart persistence: PASS
+API automatic reconnect: PASS

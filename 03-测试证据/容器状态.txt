@@ -1,0 +1,6 @@
+NAME                                IMAGE                             COMMAND                  SERVICE   CREATED          STATUS                     PORTS
+secd-course-registration-api-1      secd-course-registration-api      "gunicorn --bind 0.0…"   api       7 minutes ago    Up 7 minutes (healthy)     127.0.0.1:8080->5000/tcp
+secd-course-registration-db-1       postgres:18-alpine                "docker-entrypoint.s…"   db        30 minutes ago   Up 6 minutes (healthy)     127.0.0.1:55432->5432/tcp
+secd-course-registration-init-1     secd-course-registration-init     "python seed.py"         init      7 minutes ago    Exited (0) 7 minutes ago   
+secd-course-registration-mock-1     secd-course-registration-mock     "gunicorn -b 0.0.0.0…"   mock      7 minutes ago    Up 7 minutes               5000/tcp
+secd-course-registration-worker-1   secd-course-registration-worker   "python worker.py"       worker    7 minutes ago    Up 7 minutes               5000/tcp

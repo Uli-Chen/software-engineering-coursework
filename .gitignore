@@ -1,0 +1,15 @@
+.build/
+.env
+.env.*
+!.env.example
+.DS_Store
+~$*
+*.zip
+**/.venv/
+**/node_modules/
+**/dist/
+**/__pycache__/
+**/.pytest_cache/
+**/*.pyc
+backups/
+**/test-results.xml

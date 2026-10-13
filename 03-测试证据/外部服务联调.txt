@@ -1,0 +1,10 @@
+ Container secd-course-registration-api-run-b6305f1c74df Creating 
+ Container secd-course-registration-api-run-b6305f1c74df Created 
+Demo initialized. Login: admin / professor01 / student01. Password: Demo2026!
+{
+  "catalog_down_503": true,
+  "catalog_recovery": true,
+  "billing_failure_persists_3_pending": true,
+  "billing_recovery_3_sent": true,
+  "duplicate_delivery_receipt_count_3": true
+}

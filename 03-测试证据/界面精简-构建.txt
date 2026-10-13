@@ -1,0 +1,66 @@
+
+> secd-course-registration@1.0.0 build
+> vite build
+
+vite v7.3.7 building client environment for production...
+transforming...
+✓ 1560 modules transformed.
+rendering chunks...
+computing gzip size...
+../backend/static/index.html                   0.42 kB │ gzip:  0.32 kB
+../backend/static/assets/index-NTiRO9Ua.css   17.40 kB │ gzip:  4.64 kB
+../backend/static/assets/index-CRI5l3VB.js   110.63 kB │ gzip: 40.40 kB
+✓ built in 618ms
+ Image secd-course-registration-api Building 
+#1 [internal] load local bake definitions
+#1 reading from stdin 650B done
+#1 DONE 0.0s
+
+#2 [internal] load build definition from Dockerfile
+#2 transferring dockerfile: 309B done
+#2 DONE 0.0s
+
+#3 [internal] load metadata for docker.io/library/python:3.13-slim-bookworm
+#3 DONE 0.0s
+
+#4 [internal] load .dockerignore
+#4 transferring context: 89B done
+#4 DONE 0.0s
+
+#5 [internal] load build context
+#5 transferring context: 129.40kB done
+#5 DONE 0.0s
+
+#6 [1/5] FROM docker.io/library/python:3.13-slim-bookworm@sha256:061b6e52a07ab675f0e4a9428c5a8ee6bed996983427f4691f6bebf29c56d9dc
+#6 resolve docker.io/library/python:3.13-slim-bookworm@sha256:061b6e52a07ab675f0e4a9428c5a8ee6bed996983427f4691f6bebf29c56d9dc done
+#6 DONE 0.0s
+
+#7 [2/5] WORKDIR /app
+#7 CACHED
+
+#8 [3/5] COPY requirements*.txt .
+#8 CACHED
+
+#9 [4/5] RUN pip install --no-cache-dir -r requirements.lock.txt
+#9 CACHED
+
+#10 [5/5] COPY . .
+#10 DONE 0.0s
+
+#11 exporting to image
+#11 exporting layers 0.0s done
+#11 exporting manifest sha256:0e127b06471805e87eaa400d5f1549161327c3f725a6732a29c2e79d1e4c48e7 done
+#11 exporting config sha256:2487572c1d6b05434e9d655f491b3c3fe33b866599f590724be72cc5d267c3fa done
+#11 exporting attestation manifest sha256:50cb29d5c8bc57bfaf5374e5a0f1da260834a573d4c7c6468352d36a2e314cfc done
+#11 exporting manifest list sha256:e9e82b46ee75b6c01d3bca3831a2ab783d7e99a938428fd92d6f2cec7d3dff85 done
+#11 naming to docker.io/library/secd-course-registration-api:latest done
+#11 unpacking to docker.io/library/secd-course-registration-api:latest done
+#11 DONE 0.0s
+
+#12 resolving provenance for metadata file
+#12 DONE 0.0s
+ Image secd-course-registration-api Built 
+ Container secd-course-registration-api-1 Recreate 
+ Container secd-course-registration-api-1 Recreated 
+ Container secd-course-registration-api-1 Starting 
+ Container secd-course-registration-api-1 Started 

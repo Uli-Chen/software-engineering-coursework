@@ -1,0 +1,45 @@
+ Container secd-course-registration-api-run-5b4d17c589cc Creating 
+ Container secd-course-registration-api-run-5b4d17c589cc Created 
+============================= test session starts ==============================
+platform linux -- Python 3.13.13, pytest-8.4.2, pluggy-1.6.0 -- /usr/local/bin/python
+cachedir: .pytest_cache
+rootdir: /app
+collecting ... collected 34 items
+
+tests/test_registration.py::test_unauthenticated_and_csrf PASSED         [  2%]
+tests/test_registration.py::test_bad_login PASSED                        [  5%]
+tests/test_registration.py::test_role_boundaries PASSED                  [  8%]
+tests/test_registration.py::test_draft_does_not_reserve PASSED           [ 11%]
+tests/test_registration.py::test_first_submit_requires_four_plus_two PASSED [ 14%]
+tests/test_registration.py::test_submit_and_alternates_no_seat PASSED    [ 17%]
+tests/test_registration.py::test_duplicate_course_deliveries PASSED      [ 20%]
+tests/test_registration.py::test_conflict_atomic_rollback PASSED         [ 23%]
+tests/test_registration.py::test_prerequisite_rejected PASSED            [ 26%]
+tests/test_registration.py::test_invalid_ids_and_types PASSED            [ 29%]
+tests/test_registration.py::test_drop_and_delete_release_seats PASSED    [ 32%]
+tests/test_registration.py::test_submitted_cannot_become_draft PASSED    [ 35%]
+tests/test_registration.py::test_schedule_isolation PASSED               [ 38%]
+tests/test_registration.py::test_last_seat_concurrently PASSED           [ 41%]
+tests/test_registration.py::test_close_busy_registration PASSED          [ 44%]
+tests/test_registration.py::test_close_cancels_and_is_not_repeatable PASSED [ 47%]
+tests/test_registration.py::test_teacherless_primary_uses_alternate PASSED [ 50%]
+tests/test_registration.py::test_low_enrollment_cancelled_without_alternates PASSED [ 52%]
+tests/test_registration.py::test_teacher_roster_ownership PASSED         [ 55%]
+tests/test_registration.py::test_grade_edit_and_report PASSED            [ 58%]
+tests/test_registration.py::test_invalid_grade_and_non_roster PASSED     [ 61%]
+tests/test_registration.py::test_grade_batch_atomic PASSED               [ 64%]
+tests/test_registration.py::test_teaching_conflict_and_other_teacher PASSED [ 67%]
+tests/test_registration.py::test_teaching_update_and_closure PASSED      [ 70%]
+tests/test_registration.py::test_user_lifecycle_and_eligibility PASSED   [ 73%]
+tests/test_registration.py::test_delete_current_dependencies_rejected PASSED [ 76%]
+tests/test_registration.py::test_inactive_login_rejected PASSED          [ 79%]
+tests/test_registration.py::test_external_catalog_failure PASSED         [ 82%]
+tests/test_registration.py::test_billing_retry_keeps_outbox PASSED       [ 85%]
+tests/test_registration.py::test_zero_grade_report PASSED                [ 88%]
+tests/test_registration.py::test_close_does_not_charge_drafts PASSED     [ 91%]
+tests/test_registration.py::test_alternate_fallback_when_first_full PASSED [ 94%]
+tests/test_registration.py::test_missing_eligibility_rejected PASSED     [ 97%]
+tests/test_registration.py::test_cancelled_primary_retains_no_more_than_four PASSED [100%]
+
+------------------ generated xml file: /app/test-results.xml -------------------
+============================== 34 passed in 6.36s ==============================

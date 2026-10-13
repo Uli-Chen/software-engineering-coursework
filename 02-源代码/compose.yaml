@@ -1,0 +1,62 @@
+name: secd-course-registration
+x-backend: &backend
+  build: ./backend
+  environment: &environment
+    DATABASE_URL: postgresql+psycopg://course:${POSTGRES_PASSWORD:-course_demo_db_2026}@db:5432/course
+    SECRET_KEY: ${SECRET_KEY:-course-demo-change-this-key-before-sharing}
+    CATALOG_URL: http://mock:6000
+    BILLING_URL: http://mock:6000
+    MOCK_CONTROL_KEY: local-demo-adapter-key
+  depends_on:
+    db:
+      condition: service_healthy
+services:
+  db:
+    image: postgres:18-alpine
+    environment:
+      POSTGRES_DB: course
+      POSTGRES_USER: course
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-course_demo_db_2026}
+    ports:
+      - "127.0.0.1:${DB_PORT:-55432}:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U course -d course"]
+      interval: 3s
+      timeout: 3s
+      retries: 20
+  init:
+    <<: *backend
+    command: ["python", "seed.py"]
+  mock:
+    <<: *backend
+    command: ["gunicorn", "-b", "0.0.0.0:6000", "--workers", "1", "--threads", "4", "mock_services:app"]
+    volumes:
+      - mock-data:/data
+  api:
+    <<: *backend
+    ports:
+      - "127.0.0.1:${WEB_PORT:-8080}:5000"
+    depends_on:
+      init:
+        condition: service_completed_successfully
+      mock:
+        condition: service_started
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:5000/api/health')"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+  worker:
+    <<: *backend
+    command: ["python", "worker.py"]
+    depends_on:
+      init:
+        condition: service_completed_successfully
+      mock:
+        condition: service_started
+
+volumes:
+  postgres-data:
+  mock-data:
