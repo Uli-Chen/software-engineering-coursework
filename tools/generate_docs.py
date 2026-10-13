@@ -1,7 +1,7 @@
 """Generate editable course submission reports. Run with the bundled document runtime."""
 from pathlib import Path
 from copy import deepcopy
-import zipfile, hashlib, json
+import zipfile, hashlib, json, sys
 from lxml import etree as E
 from docx import Document
 from docx.shared import Cm, Pt, RGBColor
@@ -12,6 +12,9 @@ from docx.enum.table import WD_TABLE_ALIGNMENT, WD_CELL_VERTICAL_ALIGNMENT
 
 ROOT=Path(__file__).resolve().parents[1]
 OUT=ROOT/'01-提交文档';OUT.mkdir(exist_ok=True)
+if any(OUT.glob('*.docx')) and '--overwrite' not in sys.argv:
+    raise SystemExit('现有文档包含成员修订。请直接编辑 Word；仅在明确需要重建基础草稿时使用 --overwrite。')
+MEMBER_NAMES=['陈辰','董宇曦','刘根森','李怡宁','赵毓豪']
 N={'w':'http://schemas.openxmlformats.org/wordprocessingml/2006/main'}
 REF=ROOT/'04-原始要求/2026-SECD-文档提交封面模板.docx'
 
@@ -36,11 +39,11 @@ def replace_text(el,value,size=None):
             if sz is None:sz=E.SubElement(rp,qn('w:sz'))
             sz.set(qn('w:val'),str(size*2))
 replace_text(paras[6],'组号：待填写')
-replace_text(paras[7],'小组成员表（组长：teammate0）：')
+replace_text(paras[7],'小组成员表（组长：陈辰）：')
 rows=table.findall('w:tr',N)
 for i,row in enumerate(rows[1:6]):
     cells=row.findall('w:tc',N)
-    for cell,value in zip(cells,[str(i+1),'待填写',f'teammate{i}','待确认','']):replace_text(cell,value,12)
+    for cell,value in zip(cells,[str(i+1),['25230426','87220604','14230107','35231905','27200221'][i],MEMBER_NAMES[i],'待确认','']):replace_text(cell,value,12)
 table.remove(rows[6])
 for p in paras[10:]:body.remove(p)
 # Remove the empty spacer after the member table to keep the required note on the cover.
@@ -52,11 +55,11 @@ with zipfile.ZipFile(OUT/'00-提交封面.docx','w',zipfile.ZIP_DEFLATED) as z:
     for n,data in parts.items():z.writestr(n,data)
 
 TEAMS=[
- ['teammate0','组长与集成','范围管理、架构、合并验收、全组总结','20%（建议）'],
- ['teammate1','需求与学生端','用例、目录、选课、课表、成绩查询','20%（建议）'],
- ['teammate2','后端与数据库','数据模型、事务、锁、容量和先修校验','20%（建议）'],
- ['teammate3','教师与教务端','授课、名单、成绩录入、人员维护','20%（建议）'],
- ['teammate4','测试与交付','异常与并发测试、部署、证据、操作说明','20%（建议）'],
+ ['陈辰','组长与集成','范围管理、架构、合并验收、全组总结','20%（建议）'],
+ ['董宇曦','需求与学生端','用例、目录、选课、课表、成绩查询','20%（建议）'],
+ ['刘根森','后端与数据库','数据模型、事务、锁、容量和先修校验','20%（建议）'],
+ ['李怡宁','教师与教务端','授课、名单、成绩录入、人员维护','20%（建议）'],
+ ['赵毓豪','测试与交付','异常与并发测试、部署、证据、操作说明','20%（建议）'],
 ]
 DOCS=[]
 def doc(name,title,pages):DOCS.append((name,title,pages))
@@ -66,11 +69,11 @@ def t(headers,rows):return ('t',headers,rows)
 def bullets(*items):return ('b',items)
 
 doc('01-开发计划','课程注册系统开发计划',[
- [p('本计划覆盖高校课程注册系统的实现、测试和课程材料交付。采用 Vue 3、Flask、PostgreSQL 和 Docker Compose，优先完成题目中的八类核心用例。项目由五位成员协作，teammate0 为组长。'),
+ [p('本计划覆盖高校课程注册系统的实现、测试和课程材料交付。采用 Vue 3、Flask、PostgreSQL 和 Docker Compose，优先完成题目中的八类核心用例。项目由五位成员协作，陈辰 为组长。'),
  h('1 项目范围与交付物'),p('必交内容包括可运行程序、开发计划、需求分析、设计文档、测试计划、测试报告、五份个人工作总结和组长汇总报告。本项目同时提供配置管理计划、初始化数据、数据库结构 SQL、源代码和运行说明。'),
  p('旧课程目录及计费系统通过独立 HTTP 模拟服务对接。真实 Ingres、DEC VAX 和生产财务系统不在本次实现环境内。课程 PPT 允许 Web 技术，故采用浏览器界面替代题目中的 Windows 95/98 桌面界面。'),
  h('2 人员安排'),t(['成员','职责','对应工作','拟定比例'],TEAMS),p('以上为建议分工和工作量安排，不等同于真实贡献记录。各成员需按实际承担的工作修订个人总结，组长核实后将贡献比例填写到封面，合计必须为 100%。'),
- h('3 协作方式'),p('以功能模块交付为单位，需求编号贯穿设计和测试。成员提交修改前运行相关测试；teammate0 负责审查接口、组织集成和维护版本清单。每日记录完成内容、问题及下一步计划，发现范围变化时先修订需求与测试用例。')],
+ h('3 协作方式'),p('以功能模块交付为单位，需求编号贯穿设计和测试。成员提交修改前运行相关测试；陈辰 负责审查接口、组织集成和维护版本清单。每日记录完成内容、问题及下一步计划，发现范围变化时先修订需求与测试用例。')],
  [h('4 进度与迭代计划'),p('题目给出的课程周期为 2026 年 9 月 8 日至 10 月 16 日。本计划以 10 月 13 日当前版本为起点安排剩余工作，不追溯编造此前开发记录。'),
  t(['迭代','计划时间','目标','验收条件'],[
  ['I1','10 月 13 日','核心功能、数据与容器启动','三类角色可登录，核心事务测试通过'],
@@ -170,7 +173,7 @@ doc('05-测试报告','课程注册系统测试报告',[
 doc('06-软件配置管理计划','软件配置管理计划',[[
  p('配置管理覆盖应用源码、依赖清单、部署文件、数据库结构、初始化数据、提交文档和测试证据。交付版本以实际源文件和 SHA256 清单为准，不伪造个人提交历史。'),
  h('1 配置项'),t(['配置项','位置','维护方式'],[['业务源码','02-源代码/backend、frontend/src','按模块修改，相关测试通过后集成'],['依赖','requirements.txt、requirements.lock.txt、package-lock.json','版本固定，依赖升级后重新构建与测试'],['部署与配置','compose.yaml、Dockerfile、.env.example','只提交示例配置；真实密钥不入库'],['数据库','models.py、schema.sql、seed.py','三者同步；已有数据不自动重置'],['文档与证据','01-提交文档、03-测试证据','与当前代码一同更新'],['原始依据','04-原始要求','保持原文件不变，作为追溯依据']]),
- h('2 版本与变更流程'),p('建议使用 main 保存可运行版本，成员通过 feature/模块名 分支开发。每次变更记录需求编号、修改文件、测试结果和风险；由 teammate0 核对后集成。提交前生成文件哈希清单。当前交付包是可导入版本控制的配置基线，版本历史由小组后续真实开发活动形成。'),
+ h('2 版本与变更流程'),p('建议使用 main 保存可运行版本，成员通过 feature/模块名 分支开发。每次变更记录需求编号、修改文件、测试结果和风险；由 陈辰 核对后集成。提交前生成文件哈希清单。当前交付包是可导入版本控制的配置基线，版本历史由小组后续真实开发活动形成。'),
  h('3 备份与恢复'),p('数据库通过 PostgreSQL 命名卷持久化。tools/backup.sh 导出逻辑备份；恢复时先停止写入，在明确目标数据库和备份文件后使用 psql 恢复。docker compose down 不删除数据卷；只有明确需要重新初始化演示数据时才执行 down -v，该命令会删除本项目的演示数据。'),
  h('4 发布规则'),p('交付排除 node_modules、虚拟环境、临时渲染目录和私密 .env；保留已构建的 backend/static，使 Docker 演示无需安装 Node。修改 Vue 源码后先 npm ci 与 npm run build，再重建 API 镜像。冻结后修改必须更新测试结果、版本说明和 SHA256 清单。')
 ]])
@@ -180,7 +183,7 @@ doc('07-小组工作总结','课程注册系统小组工作总结',[[
  h('1 完成情况'),p(f'当前版本已有 {count} 项自动化测试通过，包含真实 PostgreSQL 行锁并发验证和异常回滚。独立模拟服务验证了目录故障、计费持久化重试及幂等。程序通过 Docker Compose 启动，业务数据保存在命名卷中。未完成的高并发、长期可用性与真实外部系统接入已列入测试报告。'),
  h('2 分工与贡献核对'),t(['成员','建议职责','对应交付','拟定比例'],TEAMS),p('上表是按工作包划分的建议比例，五人合计 100%。实际贡献应依据成员确认的工作记录调整；本报告不能替代本人对实际工作内容的确认。最终封面必须填入确认后的比例和各成员本人签名。'),
  h('3 经验与待改进事项'),p('选课流程的难点是数据一致性：容量检查必须与写入处在同一事务中，关闭选课必须和在途修改互斥。另一重点是外部故障恢复，发送失败不能丢失计费信息，重试必须避免重复记账。后续可完善数据库迁移、真实目录快照同步、登录限流及规模化性能验证。'),
- h('4 提交前行动'),p('由 teammate0 汇总五位成员核实后的个人总结，补齐组号与学号，确定实际贡献比例并组织签名。全组共同进行一轮现场演示，确认提交文档、源码及运行结果对应同一版本。')
+ h('4 提交前行动'),p('由 陈辰 汇总五位成员核实后的个人总结，补齐组号与学号，确定实际贡献比例并组织签名。全组共同进行一轮现场演示，确认提交文档、源码及运行结果对应同一版本。')
 ]])
 
 PERSONAL=[
@@ -191,8 +194,8 @@ PERSONAL=[
  ('测试部署与交付','测试计划、自动化用例、外部联调、证据及使用说明','backend/tests、check_integrations.py、worker.py 的验证、README 与测试报告','使用独立测试数据库复现关键场景，保留原始命令输出，核对运行步骤、数据卷及失败恢复行为。','测试应同时验证返回值和数据库状态。模拟接口通过不等于真实接口通过，小规模并发验证也不能替代 2000 用户压力测试。'),
 ]
 for i,(role,work,files,steps,lesson) in enumerate(PERSONAL):
-    doc(f'08-{i}-teammate{i}个人工作总结',f'teammate{i}个人工作总结',[[
-        p(f'姓名代号：teammate{i}。建议职责：{role}。本报告按项目工作包整理，提交前由本人核对实际参与内容、补充个人工作记录并确认贡献比例。'),
+    doc(f'08-{i}-{MEMBER_NAMES[i]}个人工作总结',f'{MEMBER_NAMES[i]}个人工作总结',[[
+        p(f'姓名：{MEMBER_NAMES[i]}。'+('学号：25230426。' if i==0 else '学号：14230107。' if i==2 else '')+f'建议职责：{role}。本报告按项目工作包整理，提交前由本人核对实际参与内容、补充个人工作记录并确认贡献比例。'),
         h('1 对应工作范围'),p(work+'。'),h('2 对应成果'),p(files+'。'),
         h('3 工作核对说明'),p(steps),p('请本人补充实际完成的功能、遇到的问题、参与日期、修改记录和测试证据。当前文档描述模块成果，不将代码自动生成过程记作任何成员已经完成的个人经历。'),
         h('4 技术认识与总结'),p(lesson),h('5 后续工作'),p('结合本人负责模块运行相关测试，复查需求、设计和操作说明，参加全组演示。若发现文档与程序行为不一致，先修正并复测，再提交最终个人总结。'),
@@ -249,7 +252,7 @@ for name,title,pages in DOCS:
     d.styles['Heading 1'].paragraph_format.line_spacing=Pt(19)
     for border in list(d.styles.element.iter(qn('w:pBdr'))):border.getparent().remove(border)
     for grid in list(s._sectPr.iter(qn('w:docGrid'))):grid.getparent().remove(grid)
-    d.add_paragraph(title,'Title');d.add_paragraph('2026 软件工程课程设计    teammate0 小组    版本 1.0    2026-10-13').runs[0].font.size=Pt(9)
+    d.add_paragraph(title,'Title');d.add_paragraph('2026 软件工程课程设计    陈辰 小组    版本 1.0    2026-10-13').runs[0].font.size=Pt(9)
     for page_index,blocks in enumerate(pages):
         # Use pageBreakBefore on the next heading to avoid empty spill pages.
         for block in blocks:
@@ -267,5 +270,5 @@ for name,title,pages in DOCS:
     footer=s.footer.paragraphs[0];footer.alignment=WD_ALIGN_PARAGRAPH.CENTER
     r=footer.add_run();set_font(r,9)
     field=OxmlElement('w:fldSimple');field.set(qn('w:instr'),'PAGE');r._r.addnext(field)
-    d.core_properties.title=title;d.core_properties.author='teammate0 小组';d.save(OUT/(name+'.docx'))
+    d.core_properties.title=title;d.core_properties.author='陈辰 小组';d.save(OUT/(name+'.docx'))
 print('Created',len(DOCS)+1,'DOCX files')

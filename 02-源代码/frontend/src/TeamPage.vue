@@ -3,17 +3,17 @@ import { ref } from 'vue'
 import { ArrowLeft, ArrowRight, BookOpen, Users } from 'lucide-vue-next'
 
 const members = [
-  { name: 'teammate0', role: '组长 · 规划与集成', work: '总体架构、进度协调、Docker 配置、代码集成与验收。', docs: '开发计划、小组工作总结、软件配置管理计划；汇总提交封面。' },
-  { name: 'teammate1', role: '需求分析与学生端', work: '课程目录、主选与备选、课表和成绩查询页面。', docs: '主写需求分析文档；补充设计文档中的学生端部分。' },
-  { name: 'teammate2', role: '后端与数据库', work: '数据模型、选课接口、先修与冲突校验、并发名额控制、关闭选课。', docs: '主写设计文档，负责数据库、接口与核心业务流程。' },
-  { name: 'teammate3', role: '教师端与教务管理', work: '授课安排、学生名单、成绩录入、师生信息及授课资格管理。', docs: '补充需求分析与设计文档中的教师、教务模块。' },
-  { name: 'teammate4', role: '测试与交付', work: '自动化测试、外部服务联调、故障恢复验证、部署检查和证据整理。', docs: '测试计划、测试报告、README；协助配置管理材料。' },
+  { name: '陈辰', role: '组长 · 规划与集成', work: '总体架构、进度协调、Docker 配置、代码集成与验收。', docs: '开发计划、小组工作总结、软件配置管理计划；汇总提交封面。' },
+  { name: '董宇曦', role: '需求分析与学生端', work: '课程目录、主选与备选、课表和成绩查询页面。', docs: '主写需求分析文档；补充设计文档中的学生端部分。' },
+  { name: '刘根森', role: '后端与数据库', work: '数据模型、选课接口、先修与冲突校验、并发名额控制、关闭选课。', docs: '主写设计文档，负责数据库、接口与核心业务流程。' },
+  { name: '李怡宁', role: '教师端与教务管理', work: '授课安排、学生名单、成绩录入、师生信息及授课资格管理。', docs: '补充需求分析与设计文档中的教师、教务模块。' },
+  { name: '赵毓豪', role: '测试与交付', work: '自动化测试、外部服务联调、故障恢复验证、部署检查和证据整理。', docs: '测试计划、测试报告、README；协助配置管理材料。' },
 ]
 const stages = [
-  { id: 'I1', name: '核心实现', date: '10 月 13 日', status: '当前版本', owner: '全员开发，teammate0 集成，teammate4 验证', goal: '完成核心功能、初始化数据和容器启动。', outputs: '可运行系统、数据库结构、首轮测试记录。', checks: ['三类角色可登录并完成核心操作。', '选课事务、权限与并发测试通过。'], next: '进入组员走查，逐条对照需求。' },
-  { id: 'I2', name: '走查与修复', date: '10 月 14 日', status: '计划', owner: '各成员走查负责模块，teammate4 复测', goal: '核对用例和异常流程，修复问题并同步文档。', outputs: '问题清单、修复记录、更新后的需求与设计文档。', checks: ['每个核心用例和异常流程均完成核对。', '已修复问题复测通过，文档与程序一致。'], next: '通过走查后，进入答辩演练。' },
-  { id: 'I3', name: '交付冻结', date: '10 月 15 日', status: '计划', owner: 'teammate0 组织，teammate4 检查环境，全员演练', goal: '完成答辩演练，整理并冻结交付版本。', outputs: '演示流程、提交文档、源码包与文件校验清单。', checks: ['在干净环境中成功启动并完整演示。', '无阻断缺陷，所有交付文件对应同一版本。'], next: '确认材料齐全，准备课程验收。' },
-  { id: '验收', name: '运行检查与提交', date: '10 月 16 日', status: '计划', owner: 'teammate0 汇总提交，全员参加验收', goal: '完成现场运行检查及最终材料提交。', outputs: '最终程序、公共文档、五份个人总结及签名封面。', checks: ['组号、学号、实际贡献比例与本人签名齐全。', '现场程序、源码、文档和测试证据版本一致。'], next: '验收通过后完成提交。' },
+  { id: 'I1', name: '核心实现', date: '10 月 13 日', status: '当前版本', owner: '全员开发，陈辰 集成，赵毓豪 验证', goal: '完成核心功能、初始化数据和容器启动。', outputs: '可运行系统、数据库结构、首轮测试记录。', checks: ['三类角色可登录并完成核心操作。', '选课事务、权限与并发测试通过。'], next: '进入组员走查，逐条对照需求。' },
+  { id: 'I2', name: '走查与修复', date: '10 月 14 日', status: '计划', owner: '各成员走查负责模块，赵毓豪 复测', goal: '核对用例和异常流程，修复问题并同步文档。', outputs: '问题清单、修复记录、更新后的需求与设计文档。', checks: ['每个核心用例和异常流程均完成核对。', '已修复问题复测通过，文档与程序一致。'], next: '通过走查后，进入答辩演练。' },
+  { id: 'I3', name: '交付冻结', date: '10 月 15 日', status: '计划', owner: '陈辰 组织，赵毓豪 检查环境，全员演练', goal: '完成答辩演练，整理并冻结交付版本。', outputs: '演示流程、提交文档、源码包与文件校验清单。', checks: ['在干净环境中成功启动并完整演示。', '无阻断缺陷，所有交付文件对应同一版本。'], next: '确认材料齐全，准备课程验收。' },
+  { id: '验收', name: '运行检查与提交', date: '10 月 16 日', status: '计划', owner: '陈辰 汇总提交，全员参加验收', goal: '完成现场运行检查及最终材料提交。', outputs: '最终程序、公共文档、五份个人总结及签名封面。', checks: ['组号、学号、实际贡献比例与本人签名齐全。', '现场程序、源码、文档和测试证据版本一致。'], next: '验收通过后完成提交。' },
 ]
 const selected = ref(0)
 </script>
@@ -30,7 +30,7 @@ const selected = ref(0)
       <div class="section-heading"><h2 id="team-members-title">人员安排</h2><span class="muted small">按模块负责，组长统一集成</span></div>
       <div class="team-column-head" aria-hidden="true"><span>成员 / 职责</span><span>负责功能</span><span>文档产出</span></div>
       <article v-for="member in members" :key="member.name" class="team-member">
-        <div><h3>{{ member.name }}<span v-if="member.name==='teammate0'" class="badge green">组长</span></h3><p class="member-role">{{ member.role }}</p></div>
+        <div><h3>{{ member.name }}<span v-if="member.name==='陈辰'" class="badge green">组长</span></h3><p class="member-role">{{ member.role }}</p></div>
         <div><span class="team-field-label">负责功能</span><p>{{ member.work }}</p></div>
         <div><span class="team-field-label">文档产出</span><p>{{ member.docs }}</p></div>
       </article>
