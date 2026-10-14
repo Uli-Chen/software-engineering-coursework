@@ -3,11 +3,11 @@ import { ref } from 'vue'
 import { ArrowLeft, ArrowRight, BookOpen, Users } from 'lucide-vue-next'
 
 const members = [
-  { name: '陈辰', role: '组长 · 规划与集成', work: '总体架构、进度协调、Docker 配置、代码集成与验收。', docs: '开发计划、小组工作总结、软件配置管理计划；汇总提交封面。' },
-  { name: '董宇曦', role: '需求分析与学生端', work: '课程目录、主选与备选、课表和成绩查询页面。', docs: '主写需求分析文档；补充设计文档中的学生端部分。' },
-  { name: '刘根森', role: '后端与数据库', work: '数据模型、选课接口、先修与冲突校验、并发名额控制、关闭选课。', docs: '主写设计文档，负责数据库、接口与核心业务流程。' },
-  { name: '李怡宁', role: '教师端与教务管理', work: '授课安排、学生名单、成绩录入、师生信息及授课资格管理。', docs: '补充需求分析与设计文档中的教师、教务模块。' },
-  { name: '赵毓豪', role: '测试与交付', work: '自动化测试、外部服务联调、故障恢复验证、部署检查和证据整理。', docs: '测试计划、测试报告、README；协助配置管理材料。' },
+  { name: '陈辰', contribution: 20, role: '组长 · 规划与集成', work: '总体架构、进度协调、Docker 配置、代码集成与验收。', docs: '开发计划、小组工作总结、软件配置管理计划；汇总提交封面。' },
+  { name: '董宇曦', contribution: 20, role: '需求分析与学生端', work: '课程目录、主选与备选、课表和成绩查询页面。', docs: '主写需求分析文档；补充设计文档中的学生端部分。' },
+  { name: '刘根森', contribution: 20, role: '后端与数据库', work: '数据模型、选课接口、先修与冲突校验、并发名额控制、关闭选课。', docs: '主写设计文档，负责数据库、接口与核心业务流程。' },
+  { name: '李怡宁', contribution: 20, role: '教师端与教务管理', work: '授课安排、学生名单、成绩录入、师生信息及授课资格管理。', docs: '补充需求分析与设计文档中的教师、教务模块。' },
+  { name: '赵毓豪', contribution: 20, role: '测试与交付', work: '自动化测试、外部服务联调、故障恢复验证、部署检查和证据整理。', docs: '测试计划、测试报告、README；协助配置管理材料。' },
 ]
 const stages = [
   { id: '01', name: '需求与分工', start: '2026-09-20', end: '2026-09-23', date: '09.20 — 09.23', milestone: '09.23 确认需求', owner: '陈辰 组织，董宇曦 主写需求，全员确认分工', goal: '明确系统范围、核心用例和五位成员的负责模块。', outputs: '开发计划、需求分析初稿、人员分工与验收清单。', checks: ['学生、教师、教务三类角色的核心用例明确。', '人员安排、接口边界和迭代计划经全组确认。'], next: '09.24 进入系统设计。' },
@@ -31,11 +31,11 @@ const selected = ref(0)
       <div class="section-heading"><h2 id="team-members-title">人员安排</h2><span class="muted small">按模块负责，组长统一集成</span></div>
       <div class="team-column-head" aria-hidden="true"><span>成员 / 职责</span><span>负责功能</span><span>文档产出</span></div>
       <article v-for="member in members" :key="member.name" class="team-member">
-        <div><h3>{{ member.name }}<span v-if="member.name==='陈辰'" class="badge green">组长</span></h3><p class="member-role">{{ member.role }}</p></div>
+        <div><h3>{{ member.name }}<span v-if="member.name==='陈辰'" class="badge green">组长</span></h3><p class="member-role">{{ member.role }}</p><p class="member-contribution">贡献比例 <strong>{{ member.contribution }}%</strong></p></div>
         <div><span class="team-field-label">负责功能</span><p>{{ member.work }}</p></div>
         <div><span class="team-field-label">文档产出</span><p>{{ member.docs }}</p></div>
       </article>
-      <p class="team-note">每位成员另交个人工作总结。以上为拟定分工，实际贡献与签名由成员本人确认。</p>
+      <p class="team-note">每位成员另交个人工作总结。</p>
     </section>
 
     <section class="panel iteration-section" aria-labelledby="iteration-title">
@@ -73,6 +73,7 @@ const selected = ref(0)
 .team-column-head{padding:12px 0;color:#6b796c;font-size:12px;border-bottom:1px solid var(--line)}
 .team-member{padding:20px 0;border-bottom:1px solid var(--line);align-items:start}
 .team-member h3{display:flex;align-items:center;gap:8px;font-size:15px}.member-role{color:#647660;margin-top:7px}
+.member-contribution{margin-top:6px}.member-contribution strong{color:var(--green);margin-left:6px}
 .team-member p{font-size:13px;line-height:1.85}.team-field-label{display:none}
 .team-note{font-size:12px;color:#6e7b6c;line-height:1.8;margin-top:18px}
 .iteration-period{font-size:13px;color:#52664f;font-variant-numeric:tabular-nums}
